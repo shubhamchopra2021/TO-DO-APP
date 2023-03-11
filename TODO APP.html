@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <title>TODO APP</title>
+    <style>
+        body
+        {
+            /* background-color: #2C3333; */
+            font-family: 'Montserrat', sans-serif;
+            
+        }
+        .container
+        {
+            width: 600px;
+            height: 800px;
+            /* border: 1px solid black; */
+            border-radius: 23px;
+            background: linear-gradient(145deg, #f0f0f0, #cacaca);
+            margin-left: 100px;
+            box-shadow:  23px 23px 43px #868686,
+             -23px -23px 43px #ffffff;
+             position: relative;
+             /* display: flex;
+             justify-content: center; */
+             /* align-items: center; */
+        }
+       #image-div
+       {
+        width: 600px;
+        height: 300px;
+        background-color: #868686;
+    border: 0.1px transparent;
+         background-image: url('/snow.jpg'); 
+        background-size: 100% 100%;
+        /* background-repeat: no-repeat; */
+        border-top-right-radius: 20px;
+           }
+       #tasklist
+       {
+        position: absolute;
+        width: 599px;
+        height: 500px;
+        background-color: #EEEEEE;
+        border: 0.1px transparent;
+        border-bottom-right-radius: 15px;
+        margin-top: 0px;
+        
+       }
+       #date{
+        /* background-color: #fff; */
+       margin-top: -30px;
+       color: rgb(9, 2, 2);
+       font-size: 25px;
+       }
+       #time{
+        /* background-color: #fff; */
+        margin: 0;
+        text-align: right;
+        margin-top: 270px;
+        margin-right: 20px;
+        color: rgb(8, 10, 9);
+        font-size: 25px;
+        
+       }
+       h1
+    {
+        text-align: center;
+    }
+        #add-task
+        {
+            margin-left: 50px;
+            width: 300px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            font-size:25px;
+            background-color: #C7E8CA;
+        }
+        #add-btn
+        {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            border: none;
+            outline: none;
+            font-size: 30px;
+            background-color: #F1DEC9;
+            margin-left: 5px;
+        }
+        #add-btn:active{
+            background-color:#C8B6A6 ;
+        }
+       li{
+        list-style: none;
+        font-weight: bolder;
+        text-transform: uppercase;
+        margin-bottom:5px;
+        width: 300px;
+        /* border: 1px solid black; */
+        font-size: 25px;
+       }
+       #box
+       {
+        display: grid;
+        margin-top: 20px;
+        position: relative;
+       }
+       #removeitem
+       {
+        color: red;
+        margin-left: 400px;
+        font-size: 25px;
+        margin-top: -40px;
+       text-decoration: none;
+        /* position: absolute; */
+        
+       }
+       #removeitem:hover
+       {
+        text-decoration: underline;
+        
+        }  
+       #error
+       {
+        color: red;
+        margin-left: 50px;
+       }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="image-div">
+            
+        </div>
+        <div id="tasklist">
+            <h1>Add your list here</h1>
+            <input type="text" name="" id="add-task" placeholder="Enter task..">
+            <input type="button" value="+" id="add-btn" onclick="add()"> <br>
+            <span id="error"></span>
+            <ul id="box">
+                
+            </ul>
+        </div>
+        </div>
+
+    <script>
+        const today= new Date();
+        // const gettime= today.toLocaleDateString();
+        
+        const daysName= ['Sunday' ,'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const day= daysName[new Date().getDay()];
+        console.log(day);
+        //console.log();
+        const display= today.toLocaleTimeString();
+
+        const h3= document.createElement('h3');
+        h3.id='time';
+        let node= document.createTextNode(display);
+        h3.appendChild(node);
+       const dayh3= document.createElement('h3');
+       dayh3.id= 'date';
+        let dayNode= document.createTextNode(day);
+        dayh3.appendChild(dayNode);
+        
+        // setInterval(myTimer, 1000);
+        const show= document.getElementById('image-div');
+
+        show.appendChild(h3);
+        show.appendChild(dayh3);
+        
+        
+        let myTimer= setInterval(clock,1000);
+            
+        function clock()
+        {
+           let d= new Date();
+           let dikhao= d.toLocaleTimeString();
+            document.getElementById('time').textContent=dikhao;
+        };
+        
+        
+        
+        const todolist= document.getElementById('tasklist');
+        const addtask= document.getElementById('add-task');
+        const addbtn= document.getElementById('add-btn');
+        const box= document.getElementById('box');
+        function add()
+        {
+        
+        
+        
+            if(addtask.value=='')
+            {
+                document.getElementById('error').innerHTML= 'Please enter some task';
+            }
+            else{
+                const li= document.createElement('li');
+                const linode= document.createTextNode(addtask.value);
+        
+        li.appendChild(linode);
+        addtask.value= '';
+       
+        const remove= document.createElement('a');
+        remove.id= 'removeitem';
+        
+        const removenode= document.createTextNode('REMOVE');
+        remove.appendChild(removenode);
+        
+        
+        box.appendChild(li);
+        box.appendChild(remove);
+            remove.addEventListener('click', function()
+            { 
+                li.remove();
+                remove.remove();
+            });
+            document.getElementById('error').innerHTML= '';
+            }
+            
+        }
+        
+       
+        
+       
+        
+    </script>
+</body>
+</html>
